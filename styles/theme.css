@@ -1212,6 +1212,17 @@ html {
   filter: brightness(0.3);
 }
 
+/* The card that has just left the front is dealt off the top of the deck:
+   forward, down and out, above everything, rather than snapping behind the
+   others. Once invisible it takes its back-of-deck place (data-leaving is
+   removed after the transition). */
+.hero-card[data-leaving] {
+  z-index: 45;
+  transform: translate3d(0, 9%, 80px) scale(1.035);
+  opacity: 0;
+  filter: blur(6px) brightness(0.8);
+}
+
 /* The progress line in the active tab. Its `animationend` advances the
    deck, so pausing this animation pauses the whole cycle. */
 .hero-progress {

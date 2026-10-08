@@ -30,8 +30,10 @@ import { WORD_BASE, WORD_LINES } from '@/components/ui/highlight-word'
    2. The tabs ARE the pause control. WCAG 2.2.2 requires that anything that
       moves on its own for more than five seconds can be paused. A separate
       pause button would be correct and ugly; here the tabs carry a progress
-      line, hovering the stage pauses it, and choosing a tab stops the cycle
-      for good. The control is the content.
+      line, hovering the TABS pauses it, and choosing a tab stops the cycle
+      for good. The control is the content. Hovering the stage does not
+      pause: the stage fills most of the first screen, so a resting pointer
+      would otherwise stop the deck for nearly every desktop visitor.
 
    3. It never runs where it should not: not under reduced motion, not while
       the hero is off-screen. The cycle is driven by the CSS progress
@@ -74,6 +76,11 @@ export function HeroShowcase({
   const [hovering, setHovering] = useState(false)
   const [visible, setVisible] = useState(true)
   const [cycle, setCycle] = useState(0)
+  /* The card that just left the front. It is dealt off the top of the deck
+     (forward and down, fading) instead of jumping to the back, then settles
+     into the back slot while invisible. */
+  const [leaving, setLeaving] = useState<number | null>(null)
+  const leaveTimer = useRef<number | undefined>(undefined)
 
   const sectionRef = useRef<HTMLElement>(null)
   const measureRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -115,12 +122,22 @@ export function HeroShowcase({
   }, [measure])
 
   /* ── Navigation ───────────────────────────────────────────────────────── */
+  const markLeaving = useCallback((i: number) => {
+    setLeaving(i)
+    window.clearTimeout(leaveTimer.current)
+    leaveTimer.current = window.setTimeout(() => setLeaving(null), 950)
+  }, [])
+
+  useEffect(() => () => window.clearTimeout(leaveTimer.current), [])
+
   const advance = useCallback(() => {
-    setActive((i) => (i + 1) % n)
+    markLeaving(active)
+    setActive((active + 1) % n)
     setCycle((c) => c + 1)
-  }, [n])
+  }, [active, n, markLeaving])
 
   function choose(i: number, focus = false) {
+    if (i !== active) markLeaving(active)
     setActive(i)
     setMode('stopped')
     if (focus) tabRefs.current[i]?.focus()
@@ -323,8 +340,6 @@ export function HeroShowcase({
         data-hero-fade
         style={{ '--hero-index': 3 } as React.CSSProperties}
         className="relative mx-auto mt-14 max-w-[1240px] px-4 sm:mt-16 sm:px-8"
-        onPointerEnter={() => setHovering(true)}
-        onPointerLeave={() => setHovering(false)}
       >
         <div
           aria-hidden="true"
@@ -348,6 +363,7 @@ export function HeroShowcase({
               <div
                 key={it.slug}
                 data-depth={depth}
+                data-leaving={leaving === i && !front ? '' : undefined}
                 aria-hidden={!front}
                 inert={!front}
                 className="hero-card absolute inset-0"

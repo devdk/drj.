@@ -210,6 +210,27 @@ for (const route of ROUTES) {
   await page.close()
 }
 
+/* The hero cycles on its own, including with the pointer resting on the
+   stage — the stage fills most of the first screen, so pausing on stage
+   hover would stop the deck for nearly every desktop visitor. */
+{
+  const page = await ctx.newPage()
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' })
+  const stage = page.locator('#hero-stage')
+  const box = await stage.boundingBox()
+  if (box) await page.mouse.move(box.x + box.width / 2, box.y + Math.min(box.height / 2, 200))
+  const tabs = page.getByRole('tablist', { name: 'Featured projects' })
+  const first = await tabs.locator('[role="tab"][aria-selected="true"]').getAttribute('id')
+  await page.waitForTimeout(6500)
+  const later = await tabs.locator('[role="tab"][aria-selected="true"]').getAttribute('id')
+  console.log(`Hero auto-cycle with pointer on stage: ${first} -> ${later}`)
+  if (first === later) {
+    console.error('✗ hero did not advance on its own with the pointer over the stage')
+    process.exitCode = 1
+  }
+  await page.close()
+}
+
 /* The CV viewer: a modal, so the checks are the modal contract — opens from
    the keyboard, focus lands inside, axe is clean WITH it open (the dialog is
    only in the DOM tree axe sees once it is open), Escape closes it, focus
@@ -228,8 +249,11 @@ for (const route of ROUTES) {
   totalViolations += axe.violations.length
   for (const item of axe.violations) console.log(`   [${item.impact}] cv dialog ${item.id}: ${item.help}`)
   await page.keyboard.press('Escape')
-  await page.waitForTimeout(700)
-  const closed = await page.evaluate(() => document.querySelector('dialog.cv-dialog')?.open === false)
+  /* The close is a 420 ms animation; wait for the result rather than a fixed
+     time, so a slow machine is not reported as a broken dialog. */
+  const closed = await page
+    .waitForFunction(() => document.querySelector('dialog.cv-dialog')?.open === false, null, { timeout: 3000 })
+    .then(() => true, () => false)
   const focusBack = await page.evaluate(() => document.activeElement?.getAttribute('aria-haspopup') === 'dialog')
 
   await page.goto(`${BASE}/#cv`, { waitUntil: 'networkidle' })

@@ -30,19 +30,19 @@ import { ProjectVisual } from '@/components/sections/ProjectVisual'
    a near-identical one. (Virtuoso moved last when its diagram became a real
    screenshot: two dark frames in a row read as one.)
 
-   It opens on the CRM because it is the strongest claim: software a firm
-   runs its practice on, in place of a subscription. If a visitor reads one
-   frame and leaves, that is the frame to have read.
+   It opens on Virtuoso, the live platform anyone can open, and closes on
+   the CRM, which is not publicly launched yet: the first frame a visitor
+   sees is the one they can go and use.
    ========================================================================== */
 
 /* `label` is what the tab shows — the product's own name where it has one,
    because "SATCHEL" is the thing that was built and "Fordham Finance Group"
    is who it was built for, and a tab has room for one of them. */
 const SEQUENCE: { word: string; slug: string; label: string }[] = [
-  { word: 'CRM', slug: 'crm', label: 'SATCHEL' },
+  { word: 'platform', slug: 'virtuoso', label: 'Virtuoso' },
   { word: 'store', slug: 'zyvren', label: 'Zyvren' },
   { word: 'website', slug: 'allure-dental', label: 'Allure Dental' },
-  { word: 'platform', slug: 'virtuoso', label: 'Virtuoso' },
+  { word: 'CRM', slug: 'crm', label: 'SATCHEL' },
 ]
 
 export function Hero() {
