@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Logo } from './Logo'
 import { useEffect, useRef, useState } from 'react'
 import { cx } from '@/components/primitives'
 import { site } from '@/lib/site.config'
@@ -72,11 +73,9 @@ export function Nav() {
           aria-label="Primary"
           className="mx-auto flex h-16 w-full max-w-[var(--container-content)] items-center justify-between gap-4 px-[var(--spacing-gutter)]"
         >
-          <Link
-            href="/"
-            className="font-mono text-[0.9375rem] font-medium uppercase tracking-[0.1em] text-ink"
-          >
-            {site.shortName}
+          <Link href="/" className="-m-2 inline-flex items-center p-2 text-ink">
+            <Logo className="h-[1.375rem] w-auto" />
+            <span className="sr-only">{site.name}, home</span>
           </Link>
 
           <div className="flex items-center gap-2">
