@@ -157,6 +157,9 @@ export const projects: ProjectInput[] = [
     clientIndustry: 'accountancy',
     duration: '~8 weeks from first line to production',
     client: 'Fordham Finance Group',
+    /* The product's public site. The CRM itself sits behind sign-in; this is
+       where a visitor can see what it is. */
+    url: 'https://satchel.online/',
 
     stack: [
       {
