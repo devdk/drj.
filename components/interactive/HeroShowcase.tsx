@@ -55,6 +55,13 @@ export type HeroItem = {
 
 type Mode = 'idle' | 'auto' | 'stopped'
 
+/* "platform, store, website, CRM" → "platforms, stores, websites and CRMs":
+   the stable sentence the moving headline stands for, written as a person
+   would say it. */
+const plural = (word: string) => `${word}s`
+const listOf = (words: string[]) =>
+  words.length < 2 ? words.join('') : `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`
+
 const HOLD_MS = 5200
 
 export function HeroShowcase({
@@ -184,7 +191,7 @@ export function HeroShowcase({
             presentation only, so a screen reader is never read a headline
             that changes underneath it. */}
         <h1 className="sr-only">
-          I build the {items.map((it) => it.word).join(', ')} businesses run on.
+          I build the {listOf(items.map((it) => plural(it.word)))} businesses run on.
         </h1>
 
         <p

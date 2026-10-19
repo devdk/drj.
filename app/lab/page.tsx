@@ -1,4 +1,7 @@
 import type { Metadata } from 'next'
+import { pageMetadata, webPage, breadcrumbs } from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { PAGE_SEO } from '@/content/seo'
 import { Container, ButtonLink, Meta, Section, Surface } from '@/components/primitives'
 import { EmbeddingMap } from '@/components/lab/EmbeddingMap'
 import { Sampling } from '@/components/lab/Sampling'
@@ -29,13 +32,7 @@ import { PageHero } from '@/components/sections/PageHero'
    on this URL is different.
    ========================================================================== */
 
-export const metadata: Metadata = {
-  title: 'Lab',
-  description:
-    'Three live instruments: a byte-pair tokeniser trained on this site, a PCA projection of its real embeddings, and softmax sampling with temperature and top-p. Real computation, no wrapper.',
-  robots: { index: true, follow: true },
-  alternates: { canonical: '/lab' },
-}
+export const metadata: Metadata = pageMetadata({ ...PAGE_SEO.lab, path: '/lab' })
 
 const INSTRUMENTS = [
   {
@@ -66,6 +63,7 @@ const INSTRUMENTS = [
 export default function LabPage() {
   return (
     <>
+      <JsonLd graph={[webPage('WebPage', '/lab', PAGE_SEO.lab), breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Lab', path: '/lab' }])]} />
     <PageHero
       eyebrow="Lab"
       before="Anyone can bolt a"

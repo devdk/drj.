@@ -16,11 +16,12 @@
     "check:retrieval": "tsx scripts/check-retrieval.ts",
     "ask:gaps": "tsx scripts/ask-gaps.ts",
     "check:graph": "tsx scripts/check-graph.ts",
-    "verify": "npm run typecheck && npm run check:content && npm run check:graph && npm run check:retrieval && npm run build",
+    "check:seo": "tsx scripts/check-seo.ts",
+    "verify": "npm run typecheck && npm run check:content && npm run check:seo && npm run check:graph && npm run check:retrieval && npm run build",
     "test:e2e": "playwright test",
     "verify:full": "npm run typecheck && npm run check:content && npm run check:retrieval && npm run build && npm run shots",
     "shots": "node scripts/shots.mjs",
-    "verify:live": "npm run typecheck && npm run check:content && npm run check:retrieval && npm run build && node scripts/verify.mjs"
+    "verify:live": "npm run typecheck && npm run check:content && npm run check:seo && npm run check:retrieval && npm run build && node scripts/verify.mjs"
   },
   "dependencies": {
     "geist": "^1.7.2",

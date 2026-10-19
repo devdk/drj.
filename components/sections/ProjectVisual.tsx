@@ -1,3 +1,4 @@
+import { projectImageAlt } from '@/lib/seo'
 import type { Project } from '@/lib/schema'
 import { cx } from '@/components/primitives'
 import { FeaturedImage } from './FeaturedImage'
@@ -76,7 +77,7 @@ export function ProjectVisual({
   return (
     <FeaturedImage
       slug={project.slug}
-      alt={`Screenshot of the ${project.title} site`}
+      alt={projectImageAlt(project)}
       priority={priority}
       sizes={sizes}
       className="h-full w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover"

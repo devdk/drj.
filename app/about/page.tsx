@@ -1,4 +1,7 @@
 import type { Metadata } from 'next'
+import { pageMetadata, webPage, breadcrumbs, PERSON_ID } from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { PAGE_SEO } from '@/content/seo'
 import { site } from '@/lib/site.config'
 import { ParticleName } from '@/components/interactive/ParticleName'
 import { isPlaceholder } from '@/lib/schema'
@@ -11,10 +14,7 @@ import {
   cx,
 } from '@/components/primitives'
 
-export const metadata: Metadata = {
-  title: 'About',
-  description: `About ${site.name} — ${site.role}. ${site.positioning}`,
-}
+export const metadata: Metadata = pageMetadata({ ...PAGE_SEO.about, path: '/about', type: 'profile' })
 
 /* ==========================================================================
    ABOUT  (spec §30)
@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      <JsonLd graph={[webPage('ProfilePage', '/about', PAGE_SEO.about, { mainEntity: { '@id': PERSON_ID } }), breadcrumbs([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])]} />
       <Section className="pt-32 sm:pt-40">
         <Container>
           <Meta className="mb-6 block">About</Meta>
@@ -43,7 +44,7 @@ export default function AboutPage() {
               where its content matches its prominence.
 
               A real <h1> is inside it; the canvas is aria-hidden decoration. */}
-          <ParticleName text="DHEERAJ" />
+          <ParticleName text="DHEERAJ" heading="Dheeraj Kumar, full stack developer in Gurugram" />
 
           <p className="text-body-lg mt-6 max-w-2xl text-ink-2">{site.about.intro}</p>
 

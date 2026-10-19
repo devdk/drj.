@@ -44,6 +44,12 @@ Set these in the host's dashboard:
 | `SITE_ORIGIN` | The origin the site is served from, e.g. `https://dheerajdrive.com`. Drives canonical URLs, the sitemap and robots.txt. |
 | `CONTACT_WEBHOOK_URL` | Where contact-form submissions are sent (Resend, Formspark, Zapier, any JSON webhook). |
 | `ALLOW_PLACEHOLDERS` | `1` only for previews with unfinished content. Leave unset in production. |
+| `NEXT_PUBLIC_GA_ID` | GA4 measurement ID. When set, a consent banner appears and Google Analytics loads only after the visitor allows it. Read at build time. |
+| `GOOGLE_SITE_VERIFICATION` | Optional: the Search Console HTML-tag token. Not needed when the domain is verified by DNS. |
+
+## Search
+
+Titles, descriptions and image alt text live in one place, `content/seo.ts`, with one search intent per page; `npm run check:seo` fails on duplicates or lengths Google would truncate. Every page has its own canonical URL and share image (`lib/seo.ts`), structured data (Person, WebSite, FAQPage, ProfilePage, Article and BreadcrumbList), an image sitemap at `/sitemap.xml`, and a plain-text summary for answer engines at `/llms.txt`.
 
 ## Images
 

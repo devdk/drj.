@@ -81,3 +81,15 @@ services:
         sync: false
       - key: CONTACT_WEBHOOK_URL
         sync: false
+
+      # NEXT_PUBLIC_GA_ID — the GA4 measurement ID (G-XXXXXXX). Unset = no
+      #   analytics at all. Set = a consent banner, and GA loads only after
+      #   the visitor allows it (components/layout/Analytics.tsx). It is read
+      #   at BUILD time, so redeploy after changing it.
+      #
+      # GOOGLE_SITE_VERIFICATION — only if you verify Search Console with the
+      #   HTML-tag method. Verifying the domain by DNS TXT record needs nothing here.
+      - key: NEXT_PUBLIC_GA_ID
+        sync: false
+      - key: GOOGLE_SITE_VERIFICATION
+        sync: false

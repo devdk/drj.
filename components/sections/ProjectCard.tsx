@@ -1,3 +1,4 @@
+import { projectImageAlt } from '@/lib/seo'
 import Link from 'next/link'
 import type { Project } from '@/lib/schema'
 import { CATEGORY_LABELS } from '@/lib/content'
@@ -146,7 +147,7 @@ export function ProjectCard({
             /* Describes the screenshot, not the project — the title is already
                in the heading below, and repeating it here would make a screen
                reader say it twice. */
-            alt={`Screenshot of the live ${project.title} site`}
+            alt={projectImageAlt(project)}
             sizes={size === 'lg' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'}
             className="absolute inset-0 size-full transition-transform duration-[var(--duration-slow)] ease-[var(--ease-ui)] group-hover:scale-[1.03]"
           />

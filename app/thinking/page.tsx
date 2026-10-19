@@ -1,4 +1,7 @@
 import type { Metadata } from 'next'
+import { pageMetadata, webPage, breadcrumbs } from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { PAGE_SEO } from '@/content/seo'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 
@@ -38,11 +41,7 @@ import { PageHero } from '@/components/sections/PageHero'
    fixed nav on those jumps, so no per-anchor offset is needed.
    ========================================================================== */
 
-export const metadata: Metadata = {
-  title: 'Thinking',
-  description:
-    'A decision log, a failure archive and the principles behind them: why each technical choice was made, what it cost, what broke, and what changed as a result.',
-}
+export const metadata: Metadata = pageMetadata({ ...PAGE_SEO.thinking, path: '/thinking' })
 
 const REPEAT_LABEL: Record<Decision['wouldRepeat'], string> = {
   yes: 'Would repeat',
@@ -183,6 +182,7 @@ function IncidentResult({ result }: { result: NonNullable<Incident['result']> })
 export default function ThinkingPage() {
   return (
     <>
+      <JsonLd graph={[webPage('CollectionPage', '/thinking', PAGE_SEO.thinking), breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Thinking', path: '/thinking' }])]} />
       <PageHero
         eyebrow="Thinking"
         before="Decisions,"

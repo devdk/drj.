@@ -1,15 +1,14 @@
 import type { Metadata } from 'next'
+import { pageMetadata, webPage, breadcrumbs } from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { PAGE_SEO } from '@/content/seo'
 import { site } from '@/lib/site.config'
 import { isPlaceholder } from '@/lib/schema'
 import { BuildWithMe } from '@/components/sections/BuildWithMe'
 import { Container, Meta, Section, Surface } from '@/components/primitives'
 import { PageHero } from '@/components/sections/PageHero'
 
-export const metadata: Metadata = {
-  title: 'Start a project',
-  description:
-    'Tell me what you are trying to build. Four questions, and you will get a recommended approach before you send anything.',
-}
+export const metadata: Metadata = pageMetadata({ ...PAGE_SEO.contact, path: '/contact' })
 
 /* ==========================================================================
    CONTACT  (spec §31)
@@ -25,6 +24,7 @@ export default function ContactPage() {
 
   return (
     <>
+      <JsonLd graph={[webPage('ContactPage', '/contact', PAGE_SEO.contact), breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])]} />
       {/* Not "What are you trying to build?" — the form right below asks
           exactly that, and two headings saying one thing is one too many. */}
       <PageHero

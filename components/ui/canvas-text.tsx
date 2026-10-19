@@ -233,12 +233,18 @@ export function CanvasText({
         className={cn('pointer-events-none absolute h-0 w-0 opacity-0', backgroundClassName)}
       />
       <span ref={probeRef} aria-hidden="true" className="pointer-events-none absolute h-0 w-0 opacity-0" />
-      {/* Holds the layout, and is what a screen reader would read were the
-          canvas not labelled. Kept invisible rather than removed so text
-          selection and line breaking behave as plain text would. */}
-      <span ref={textRef} aria-hidden="true" className="invisible inline-block whitespace-nowrap">
-        {text}
-      </span>
+      {/* Holds the layout: the word is drawn by a pseudo-element from
+          data-text, so it sizes the box exactly as text would but is not in
+          the DOM's text. Every use of this component sits beside the real
+          words (a visually hidden copy, or an sr-only heading); a second,
+          invisible copy as a text node made crawlers read headings twice —
+          "VirtuosoVirtuoso". */}
+      <span
+        ref={textRef}
+        aria-hidden="true"
+        data-text={text}
+        className="invisible inline-block whitespace-nowrap before:content-[attr(data-text)]"
+      />
       <canvas ref={canvasRef} role="img" aria-label={text} className="pointer-events-none absolute" />
     </span>
   )

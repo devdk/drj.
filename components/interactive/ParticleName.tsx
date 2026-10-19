@@ -49,6 +49,10 @@ import { useEffect, useRef, useState } from 'react'
 type Props = {
   /** The word to form. Uppercased for sampling. */
   text: string
+  /** The heading's real text, for readers and search engines, when the word
+      drawn is shorter than what the heading should say ("DHEERAJ" is drawn;
+      the heading says "Dheeraj Kumar, full stack developer"). */
+  heading?: string
   className?: string
 }
 
@@ -70,7 +74,7 @@ const CONFIG = {
   driftAmount: 0.55,
 } as const
 
-export function ParticleName({ text, className }: Props) {
+export function ParticleName({ text, heading, className }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(false)
@@ -363,7 +367,15 @@ export function ParticleName({ text, className }: Props) {
         style={{ opacity: active ? 0 : 1 }}
         aria-hidden={false}
       >
-        {text}
+        {heading ? (
+          <>
+            {/* The drawn word, as a pseudo-element so it is not text. */}
+            <span aria-hidden="true" data-text={text} className="before:content-[attr(data-text)]" />
+            <span className="sr-only">{heading}</span>
+          </>
+        ) : (
+          text
+        )}
       </h1>
 
       <canvas

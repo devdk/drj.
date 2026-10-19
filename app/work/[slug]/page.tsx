@@ -1,3 +1,6 @@
+import { pageMetadata, projectSeo, projectImage, projectImageAlt, caseStudyGraph } from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { PROJECT_SEO } from '@/content/seo'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -92,18 +95,14 @@ export async function generateMetadata({
     return { title: 'Project not found', robots: { index: false, follow: false } }
   }
 
-  return {
-    title: project.title,
-    /* The tagline is the description verbatim. If it is still a bracketed
-       placeholder it ships as one — visible, and caught by check:content. */
-    description: project.tagline,
-    alternates: { canonical: `/work/${project.slug}` },
-    openGraph: {
-      type: 'article',
-      title: project.title,
-      description: project.tagline,
-    },
-  }
+  /* Search copy comes from content/seo.ts (the keyword map); a project
+     without an entry falls back to its title and tagline. */
+  return pageMetadata({
+    ...projectSeo(project),
+    path: `/work/${project.slug}`,
+    type: 'article',
+    image: projectImage(project),
+  })
 }
 
 const STATUS_LABELS: Record<Project['status'], string> = {
@@ -434,9 +433,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
      highlight; what it is stays plain beside it. */
   const [titleName, ...titleRestParts] = project.title.split(' — ')
   const titleRest = titleRestParts.join(' — ')
+  const seoHeading = PROJECT_SEO[project.slug]?.heading
+
 
   return (
     <article>
+      <JsonLd graph={caseStudyGraph(project)} />
       {/* ---- Header — the same opening as every page (PageHero): the
               project's name in moving light, the rest of the title plain. ---- */}
       <PageHero
@@ -458,7 +460,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </div>
         }
         highlight={titleName}
-        after={titleRest ? ` — ${titleRest}` : undefined}
+        after={titleRest ? ` — ${titleRest}` : seoHeading ? ` — ${seoHeading}` : undefined}
         lead={project.tagline}
         flush
       >
@@ -510,7 +512,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <figure className="mb-4">
             <FeaturedImage
               slug={project.slug}
-              alt={`Screenshot of the live ${project.title} site`}
+              alt={projectImageAlt(project)}
               priority
               sizes="(min-width: 1024px) 1024px, 100vw"
               className="aspect-[8/5] w-full rounded-[var(--radius-lg)] border border-hairline"

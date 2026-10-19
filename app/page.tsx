@@ -14,6 +14,13 @@ import { Process } from '@/components/sections/Process'
    server-rendered form for no saving. */
 import { AskPortfolio } from '@/components/sections/AskPortfolio'
 import dynamic from 'next/dynamic'
+import type { Metadata } from 'next'
+import { pageMetadata, webPage, PERSON_ID, ORIGIN } from '@/lib/seo'
+import { PAGE_SEO } from '@/content/seo'
+import { FAQ } from '@/content/engagement'
+import { JsonLd } from '@/components/seo/JsonLd'
+
+export const metadata: Metadata = pageMetadata({ ...PAGE_SEO.home, path: '/', absoluteTitle: true, type: 'profile' })
 
 
 /* Below the fold and the largest client component on the page, so it is
@@ -59,6 +66,22 @@ const BuildWithMe = dynamic(() =>
 export default function Home() {
   return (
     <>
+      <JsonLd
+        graph={[
+          webPage('WebPage', '/', PAGE_SEO.home, { mainEntity: { '@id': PERSON_ID } }),
+          /* The questions answered on this page, word for word as they appear
+             in the FAQ section — answer engines quote these. */
+          {
+            '@type': 'FAQPage',
+            '@id': `${ORIGIN}/#faq`,
+            mainEntity: FAQ.map((item) => ({
+              '@type': 'Question',
+              name: item.question,
+              acceptedAnswer: { '@type': 'Answer', text: item.answer },
+            })),
+          },
+        ]}
+      />
       <Hero />
       <Clients />
       <Capabilities />

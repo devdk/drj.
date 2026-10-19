@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { pageMetadata, webPage, breadcrumbs, ORIGIN } from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { PAGE_SEO } from '@/content/seo'
 import type { ReactNode } from 'react'
 
 import type { Project } from '@/lib/schema'
@@ -11,6 +14,8 @@ import {
   getAllCategories,
   getAllTechnologies,
   CATEGORY_LABELS,
+  getCaseStudySlugs,
+  getProject,
 } from '@/lib/content'
 import {
   ButtonLink,
@@ -41,12 +46,7 @@ import { PageHero } from '@/components/sections/PageHero'
    so that parameter name is load-bearing — do not rename it.
    ========================================================================== */
 
-export const metadata: Metadata = {
-  title: 'Work',
-  description:
-    'Every project, filterable by technology and by category. Three flagship case studies with the architecture, the decisions and the results behind them.',
-  alternates: { canonical: '/work' },
-}
+export const metadata: Metadata = pageMetadata({ ...PAGE_SEO.work, path: '/work' })
 
 type WorkView = 'list' | 'map'
 type WorkSearchParams = { tech?: string; category?: string; view?: string }
@@ -370,6 +370,20 @@ async function FilteredWork({ searchParams }: { searchParams: Promise<WorkSearch
 export default function WorkPage({ searchParams }: { searchParams: Promise<WorkSearchParams> }) {
   return (
     <>
+      <JsonLd graph={[
+          webPage('CollectionPage', '/work', PAGE_SEO.work, {
+            mainEntity: {
+              '@type': 'ItemList',
+              itemListElement: getCaseStudySlugs().map((slug, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                url: `${ORIGIN}/work/${slug}`,
+                name: getProject(slug)?.title,
+              })),
+            },
+          }),
+          breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }]),
+        ]} />
       <PageHero
         eyebrow="Work"
         before="Every project, and the"
