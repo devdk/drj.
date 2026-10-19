@@ -28,7 +28,7 @@ export const FEATURED: Record<string, Featured> = {
     width: 2400,
     height: 1500,
     blurDataURL:
-      'data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADQAQCdASoQAAoAA4BaJZwAAueFvppiAAD+0r35Ov3j2xe4VywFJMZsi1GbqO3BiVh+SK0bx/yfvn/ScLnfKrZ+su9Sq/6vgB3YEZ6OQ2Mdj1QgAAA=',
+      'data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAoAA4BaJaQAAsQdKks9wAAA/ve+4KwFjvXJE+xuXNlPfCMzA7+rz5K6AeF6mb40k8MrS81Du3sorRsVbd8wAAA=',
   },
   'chefs-and-homes': {
     width: 2400,

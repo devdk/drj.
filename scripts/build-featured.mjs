@@ -186,6 +186,18 @@ const skipped = []
 for (const project of list) {
   const desktopPath = `${RAW}/${project.slug}-desktop.png`
   const mobilePath = `${RAW}/${project.slug}-mobile.png`
+  /* A designed poster (e.g. the product's own feature artwork) replaces the
+     browser-frame composite. It is used as it is, cover-fitted to the card. */
+  const posterPath = `${RAW}/${project.slug}-poster.png`
+
+  if (existsSync(posterPath)) {
+    const png = await sharp(posterPath)
+      .resize(CARD_W * SCALE, CARD_H * SCALE, { fit: 'cover' })
+      .png()
+      .toBuffer()
+    await writeCard(project.slug, png)
+    continue
+  }
 
   if (!existsSync(desktopPath)) {
     skipped.push(project.slug)
@@ -203,9 +215,12 @@ for (const project of list) {
   await page.setContent(html, { waitUntil: 'load' })
   await page.waitForTimeout(350)
   const png = await page.screenshot({ type: 'png' })
+  await writeCard(project.slug, png)
+}
 
-  await sharp(png).avif({ quality: 58, effort: 6 }).toFile(`${OUT}/${project.slug}-card.avif`)
-  await sharp(png).webp({ quality: 82 }).toFile(`${OUT}/${project.slug}-card.webp`)
+async function writeCard(slug, png) {
+  await sharp(png).avif({ quality: 58, effort: 6 }).toFile(`${OUT}/${slug}-card.avif`)
+  await sharp(png).webp({ quality: 82 }).toFile(`${OUT}/${slug}-card.webp`)
 
   /* A 16px blur, inlined as the placeholder. Costs ~400 bytes in the HTML and
      removes the grey-box flash on a slow connection — which is the whole
@@ -213,12 +228,12 @@ for (const project of list) {
   const blur = await sharp(png).resize(16).webp({ quality: 40 }).toBuffer()
 
   manifest.push({
-    slug: project.slug,
+    slug,
     width: CARD_W * SCALE,
     height: CARD_H * SCALE,
     blurDataURL: `data:image/webp;base64,${blur.toString('base64')}`,
   })
-  console.log(`✓ ${project.slug.padEnd(22)} card.avif + card.webp`)
+  console.log(`✓ ${slug.padEnd(22)} card.avif + card.webp`)
 }
 
 await browser.close()
