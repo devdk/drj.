@@ -73,7 +73,8 @@ export const PROJECT_SEO: Record<string, PageSeo & { imageAlt?: string; heading?
     title: 'Virtuoso Web App: Live-Events Platform Case Study',
     description:
       'Building the web app for Virtuoso, an immersive live-events platform: the store, event and artist pages, dashboards and accounts, in TypeScript on AWS.',
-    imageAlt: 'The Virtuoso web app’s events page, with featured live-music events',
+    imageAlt:
+      'Virtuoso feature overview: the in-app social feed on a phone, with cards for live events, Virtuoso Earth, virtual worlds and the hub',
   },
   crm: {
     title: 'SATCHEL: Practice Management CRM for Accountants',
@@ -110,7 +111,8 @@ export const PROJECT_SEO: Record<string, PageSeo & { imageAlt?: string; heading?
     title: 'Zyvren: Shopify Product Page Speed Case Study',
     description:
       'Rebuilding a US clothing brand’s Shopify product template after Lighthouse measured its LCP at 12–16 seconds, on the page every paid ad landed on.',
-    imageAlt: 'The Zyvren Shopify clothing store home page on desktop and mobile',
+    imageAlt:
+      'Zyvren feature overview: the Couture Extension collection, a sale dress, a shop-the-look suit and the Shopify store on a phone',
   },
   'women-wellness-first': {
     heading: 'Shopify store',
@@ -124,7 +126,8 @@ export const PROJECT_SEO: Record<string, PageSeo & { imageAlt?: string; heading?
     title: 'Allure Dental Care: WordPress Website and Local SEO',
     description:
       'Rebuilding the WordPress website of a Barnet dental and facial-aesthetics practice in north London, then making it findable with technical and local SEO.',
-    imageAlt: 'The Allure Dental Care website home page on desktop and mobile',
+    imageAlt:
+      'Allure Dental Care feature overview: the practice website on a phone, with cards for Invisalign, facial aesthetics, same-day emergency care and patient reviews',
   },
   mariforce: {
     heading: 'recruitment website',

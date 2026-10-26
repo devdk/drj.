@@ -22,7 +22,7 @@ export const FEATURED: Record<string, Featured> = {
     width: 2400,
     height: 1500,
     blurDataURL:
-      'data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAwAQCdASoQAAoAA4BaJZwAA3AA/vM7XD8UeQyInZXnu6/8eYIUVIb9YdeVwGrSA8AAAA==',
+      'data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAQCdASoQAAoAA4BaJZwAAusUNQao+AAA/vV1US6124LjthEied6pcG61IzM+LxXtfg6e09oMF9ByfXvX/2kFRV5oAA==',
   },
   'crm': {
     width: 2400,
@@ -40,7 +40,7 @@ export const FEATURED: Record<string, Featured> = {
     width: 2400,
     height: 1500,
     blurDataURL:
-      'data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAgCdASoQAAoAA4BaJZQCdAERA3X8En1eAAD+98dp788bAywRmch2E81/+Fe2rYPbzw71XwA1ki2YlWUPwJU7BzXuWuAXG8MJBAAA',
+      'data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAABQAgCdASoQAAoAA4BaJaQAD4xvusntYj7RJgAA/upWw92c+18cDrSVSbzXaH4HuHxcNhCY7ud8oxxJEmm0Zi5OxIFNIV5pB/eh6ZtY6aH1YFddf5ERjAy/qrRC6VE+xFgcAAAA',
   },
   'women-wellness-first': {
     width: 2400,
@@ -52,7 +52,7 @@ export const FEATURED: Record<string, Featured> = {
     width: 2400,
     height: 1500,
     blurDataURL:
-      'data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAQCdASoQAAoAA4BaJZQAAueJ8GzcgAD+8byVYD7PundF3wP6l6zDPURP4S2E1KRYZ7ChvfcZiwTU8gqQuP2Kg8AHDxlpXkJ72TBEAAA=',
+      'data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQAgCdASoQAAoAA4BaJQBWACKxRrojSiwAAP7m8O/u8KV6droZ3PO+8A+ejaJqHhlaPnczH/NJBDOdSLgYv4B6ZfyJ7f4Uijd+VIrRblk2yvzn9HADovSG79u9YAAA',
   },
   'mariforce': {
     width: 2400,
