@@ -56,12 +56,22 @@ function roundedMask(w, h, r) {
   )
 }
 
-for (const slug of SLUGS) {
-  const desktop = `${RAW}/${slug}-desktop.png`
+/* `node scripts/build-marquee.mjs zyvren allure-dental` rebuilds just those. */
+const only = process.argv.slice(2)
+
+for (const slug of SLUGS.filter((s) => only.length === 0 || only.includes(s))) {
+  /* A designed poster (the project's feature artwork, the same one its card
+     uses) takes the desktop tile's place, so the wall and the cards show the
+     same picture. The phone tile stays the real mobile screenshot. */
+  const poster = `${RAW}/${slug}-poster.png`
+  const desktop = existsSync(poster) ? poster : `${RAW}/${slug}-desktop.png`
   const mobile = `${RAW}/${slug}-mobile.png`
 
   if (existsSync(desktop)) {
-    await write(sharp(desktop).resize(W, H, { fit: 'cover', position: 'top' }), `${OUT}/${slug}-desktop`)
+    await write(
+      sharp(desktop).resize(W, H, { fit: 'cover', position: desktop === poster ? 'centre' : 'top' }),
+      `${OUT}/${slug}-desktop`,
+    )
     console.log(`✓ ${slug}-desktop`)
   } else {
     console.log(`– ${slug}: no desktop capture`)
